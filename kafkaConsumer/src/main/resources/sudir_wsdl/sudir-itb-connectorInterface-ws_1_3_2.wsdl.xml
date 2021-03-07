@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://xmlns.dit.mos.ru/sudir/itb/connector"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.dit.mos.ru/sudir/itb/connector"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://schemas.xmlsoap.org/soap/encoding/ ">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://xmlns.dit.mos.ru/sudir/itb/connector">
+
+            <xs:complexType name="SystemInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="1" name="From" type="xs:string"/>
+                    <xs:element minOccurs="1" name="To" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MessageId" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SrcMessageId" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SentDateTime" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Priority" type="xs:int"/>
+                    <xs:element minOccurs="0" name="ReqSeq" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ExchKey" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SessKey" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Digest" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="EntryType">
+                <xs:sequence>
+                    <xs:element name="EntryName" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Seq" type="xs:long"/>
+                    <xs:element maxOccurs="unbounded" name="Attribute" type="tns:Attribute"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="Object" type="tns:Object"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="EntryListType">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="EntryItem" type="tns:EntryType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Attribute">
+                <xs:sequence>
+                    <xs:element name="Name" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" name="Value" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Object">
+                <xs:sequence>
+                    <xs:element name="Name" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" name="Attribute" type="tns:Attribute"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ResponseType">
+                <xs:sequence>
+                    <xs:element name="Response_Code" type="xs:int"/>
+                    <xs:element name="Response_Description" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="Response_ErrorList" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="FindEntryRequestType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="0" name="GetPending" type="xs:string"/>
+                    <xs:element minOccurs="1" name="EntryItem" type="tns:EntryType"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="AttachObjTypes" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="FindEntryResponseType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                    <xs:element minOccurs="0" name="EntryItem" type="tns:EntryType"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:complexType name="DeleteEntryRequestType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="1" name="EntryItem" type="tns:EntryType"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:complexType name="DeleteEntryResponseType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                    <xs:element minOccurs="0" name="EntryItem" type="tns:EntryType"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:complexType name="UpdateEntryRequestType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="0" name="ComplexOperId" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" name="EntryItem" type="tns:EntryType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="UpdateEntryResponseType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="EntryItem" type="tns:EntryType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SelectEntriesRequestType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="1" name="EntryTypeName" type="xs:string"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:complexType name="SelectEntriesResponseType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:complexType name="GetNextEntriesRequestType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="1" name="Length" type="xs:int"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:complexType name="GetNextEntriesResponseType">
+                <xs:all>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                    <xs:element minOccurs="0" name="EntryList" type="tns:EntryListType"/>
+                </xs:all>
+            </xs:complexType>
+            <xs:element name="AddEntryRequest" type="tns:EntryType"/>
+            <xs:element name="AddEntryResponse" type="tns:ResponseType"/>
+            <xs:element name="FindEntryRequest" type="tns:FindEntryRequestType"/>
+            <xs:element name="FindEntryResponse" type="tns:FindEntryResponseType"/>
+            <xs:element name="DeleteEntryRequest" type="tns:DeleteEntryRequestType"/>
+            <xs:element name="DeleteEntryResponse" type="tns:DeleteEntryResponseType"/>
+            <xs:element name="UpdateEntryRequest" type="tns:UpdateEntryRequestType"/>
+            <xs:element name="UpdateEntryResponse" type="tns:UpdateEntryResponseType"/>
+            <xs:element name="SelectEntriesRequest" type="tns:SelectEntriesRequestType"/>
+            <xs:element name="SelectEntriesResponse" type="tns:SelectEntriesResponseType"/>
+            <xs:element name="GetNextEntriesRequest" type="tns:GetNextEntriesRequestType"/>
+            <xs:element name="GetNextEntriesResponse" type="tns:GetNextEntriesResponseType"/>
+
+            <xs:element name="GetSessKeyRequest" type="tns:GetSessKeyRequestType"/>
+            <xs:element name="GetSessKeyResponse" type="tns:GetSessKeyResponseType"/>
+            <xs:element name="AddEntryExRequest" type="tns:AddEntryExRequestType"/>
+            <xs:element name="AddEntryExResponse" type="tns:AddEntryExResponseType"/>
+
+            <xs:complexType name="GetSessKeyRequestType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="1" name="Sample" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="GetSessKeyResponseType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                    <xs:element minOccurs="1" name="SessKey" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AddEntryExRequestType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element minOccurs="0" name="ComplexOperId" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="1" name="EntryItem" type="tns:EntryType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AddEntryExResponseType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SystemInfo" type="tns:SystemInfo"/>
+                    <xs:element name="Response" type="tns:ResponseType"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="EntryItem" type="tns:EntryType"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="AddEntryResponseMsg">
+        <wsdl:part name="output" element="tns:AddEntryResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="FindEntryRequestMsg">
+        <wsdl:part name="input" element="tns:FindEntryRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="UpdateEntryRequestMsg">
+        <wsdl:part name="input" element="tns:UpdateEntryRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="SelectEntriesRequestMsg">
+        <wsdl:part name="input" element="tns:SelectEntriesRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="GetNextEntriesRequestMsg">
+        <wsdl:part name="input" element="tns:GetNextEntriesRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="DeleteEntryRequestMsg">
+        <wsdl:part name="input" element="tns:DeleteEntryRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="AddEntryRequestMsg">
+        <wsdl:part name="input" element="tns:AddEntryRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="AddEntryExRequestMsg">
+        <wsdl:part name="parameters" element="tns:AddEntryExRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="GetSessKeyRequestMsg">
+        <wsdl:part name="parameters" element="tns:GetSessKeyRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="SelectEntriesResponseMsg">
+        <wsdl:part name="output" element="tns:SelectEntriesResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="DeleteEntryResponseMsg">
+        <wsdl:part name="output" element="tns:DeleteEntryResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="GetSessKeyResponseMsg">
+        <wsdl:part name="parameters" element="tns:GetSessKeyResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="GetNextEntriesResponseMsg">
+        <wsdl:part name="output" element="tns:GetNextEntriesResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="FindEntryResponseMsg">
+        <wsdl:part name="output" element="tns:FindEntryResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="AddEntryExResponseMsg">
+        <wsdl:part name="parameters" element="tns:AddEntryExResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="UpdateEntryResponseMsg">
+        <wsdl:part name="output" element="tns:UpdateEntryResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="SudirItbPortType">
+        <wsdl:operation name="AddEntry">
+            <wsdl:input message="tns:AddEntryRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:AddEntryResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="FindEntry">
+            <wsdl:input message="tns:FindEntryRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:FindEntryResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="DeleteEntry">
+            <wsdl:input message="tns:DeleteEntryRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:DeleteEntryResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="UpdateEntry">
+            <wsdl:input message="tns:UpdateEntryRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:UpdateEntryResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SelectEntries">
+            <wsdl:input message="tns:SelectEntriesRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:SelectEntriesResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetNextEntries">
+            <wsdl:input message="tns:GetNextEntriesRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:GetNextEntriesResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetSessKey">
+            <wsdl:input message="tns:GetSessKeyRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:GetSessKeyResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="AddEntryEx">
+            <wsdl:input message="tns:AddEntryExRequestMsg">
+            </wsdl:input>
+            <wsdl:output message="tns:AddEntryExResponseMsg">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SudirItbBinding" type="tns:SudirItbPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="AddEntry">
+            <soap:operation soapAction="urn::#AddEntry"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="FindEntry">
+            <soap:operation soapAction="urn::#FindEntry"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="DeleteEntry">
+            <soap:operation soapAction="urn::#DeleteEntry"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="UpdateEntry">
+            <soap:operation soapAction="urn::#UpdateEntry"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SelectEntries">
+            <soap:operation soapAction="urn::#SelectEntries"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetNextEntries">
+            <soap:operation soapAction="urn::#GetNextEntries"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetSessKey">
+            <soap:operation soapAction="urn::#GetSessKey"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="AddEntryEx">
+            <soap:operation soapAction="urn::#AddEntryEx"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SudirItbService">
+        <wsdl:port name="SudirItbPort" binding="tns:SudirItbBinding">
+            <soap:address location="http://elk-mdm.srvdev.ru:80/ws/SudirItbService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

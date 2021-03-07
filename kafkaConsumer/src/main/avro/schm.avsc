@@ -1,0 +1,4 @@
+{"name": "Soartest",
+    "namespace": "consuming",
+    "type": "record",
+    "fields": [{"name":"rec","type":"string"}]}

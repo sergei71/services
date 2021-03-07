@@ -1,0 +1,13 @@
+logging.level:
+  root: WARN
+  org.springframework: DEBUG
+  ru.gex.mdm_proxy.elk_consumer.application.service: DEBUG
+  ru.gex.mdm_proxy.elk_consumer.infrastructure.KafkaProducer: DEBUG
+
+kafka:
+  bootstrap-servers: xx.xx.xx.xx:xxxx
+  zookeeper: xx.xx.xx.xx:xxxx
+  topic:
+    elk: xxxx
+
+server.port: 8080
