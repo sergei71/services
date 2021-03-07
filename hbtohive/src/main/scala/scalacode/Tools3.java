@@ -23,7 +23,7 @@ public class Tools3 {
 
     public static String getLoginname(String xml,String template){
         String loginname = "";
-        xml = xml.replace(" xmlns=\"http://xmlns.dit.mos.ru/sudir/itb/connector\"","");
+        xml = xml.replace(" xmlns=\"http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","");
         xml = xml.trim().replaceFirst("^([\\W]+)<","<");
         SAXReader reader = new SAXReader();
         try{
@@ -49,7 +49,7 @@ public class Tools3 {
                                                          Map<String,String[]> objects,
                                                          Map<String ,String> indices) throws IOException,
             URISyntaxException,DocumentException {
-        xml = xml.replace(" xmlns=\"http://xmlns.dit.mos.ru/sudir/itb/connector\"","");
+        xml = xml.replace(" xmlns=\"http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","");
         xml = xml.trim().replaceFirst("^([\\W]+)<","<");
         if(xml.contains("AddEntryRequest")){
             entryitempath = entryitempath.replaceAll("UpdateEntryRequest","AddEntryRequest");
