@@ -1,27 +1,10 @@
 package scalacode;
 
-import org.apache.spark.SparkConf;
-import org.apache.spark.sql.catalyst.expressions.GenericRow;
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
-import org.apache.spark.sql.*;
 import org.apache.spark.sql.types.*;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
-import java.util.*;
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.spark.sql.execution.datasources.*;
-import org.apache.spark.api.java.function.MapFunction;
-import scala.collection.mutable.*;
-import org.apache.spark.sql.Encoders;
-import java.util.Calendar;
-import scala.reflect.ClassTag;
-import org.apache.spark.sql.execution.datasources.WriteTaskResult;
-import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.*;
-
 
 public class Parameters implements Serializable{
 
