@@ -18,7 +18,7 @@ public class ReadFromDFS {
     public static String readHdfs(String p) throws IOException,URISyntaxException{
         Path path = new Path(p);
         Configuration conf = new Configuration();
-        FileSystem fs = FileSystem.get(new URI("hdfs://nameservice1"),conf);
+        FileSystem fs = FileSystem.get(new URI("hdfs://xxxxxxxxx"),conf);
         String res = "";
         InputStream in = null;
         try{
